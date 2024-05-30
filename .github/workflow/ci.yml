@@ -10,4 +10,7 @@ jobs:
     steps:
       - name: Echo the message
         run: echo "Hola loko"
+      - name: Dar fecha
+        run: date
+      - run: ls -l 
    
