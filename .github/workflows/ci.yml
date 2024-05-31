@@ -56,7 +56,7 @@ jobs:
           args: >
               -Dsonar.organization=joaquingz89
               -Dsonar.projectKey=IdS-P2
-              -Dsonar.python.coverage.reportPaths=coverage.xml
+              -Dsonar.python.coverage.reportPaths=cover
 
 
 
