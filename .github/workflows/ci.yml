@@ -38,3 +38,25 @@ jobs:
       if: success()
       run: |
         curl -X POST -H 'Content-type: application/json' --data '{"text":"SE ARREGLO TODO!!!."}' ${{ secrets.SLACK_WEBHOOK_URL }}
+  
+  Sonarcloud:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+            GITHUB_TOKEN: ${{ secrets.GIT_TOKEN  }}
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN  }}
+        with:
+          args: >
+              -Dsonar.organization= joaquingz89
+              -Dsonar.projectKey=IdS-P2
+              -Dsonar.python.coverage.reportPaths=coverage.xml
+
+
+
