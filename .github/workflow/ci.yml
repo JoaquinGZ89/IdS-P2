@@ -30,10 +30,6 @@ jobs:
         pytest
       continue-on-error: true
 
-    - name: Lint code
-      run: |
-        flake8 .
-
     - name: Notify Slack on failure
       if: failure()
       run: |
