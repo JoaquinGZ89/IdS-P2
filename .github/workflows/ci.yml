@@ -27,7 +27,7 @@ jobs:
     - name: Run tests
       id: pytest
       run: |
-        pytest
+        pytest ./tests
 
     - name: Notify Slack on failure
       if: always()
