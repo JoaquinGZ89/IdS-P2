@@ -28,7 +28,6 @@ jobs:
       id: pytest
       run: |
         pytest
-      continue-on-error: true
 
     - name: Notify Slack on failure
       if: always()
