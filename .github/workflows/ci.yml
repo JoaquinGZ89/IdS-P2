@@ -30,6 +30,11 @@ jobs:
         pytest
 
     - name: Notify Slack on failure
-      if: always()
+      if: failure()
       run: |
-        curl -X POST -H 'Content-type: application/json' --data '{"text":"Build failed! Check the GitHub Actions logs for details."}' ${{ secrets.SLACK_WEBHOOK_URL }}
+        curl -X POST -H 'Content-type: application/json' --data '{"text":"SE ROMPIO TODO!!!"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    - name: Notify Slack on success
+      if: success()
+      run: |
+        curl -X POST -H 'Content-type: application/json' --data '{"text":"SE ARREGLO TODO!!!."}' ${{ secrets.SLACK_WEBHOOK_URL }}
