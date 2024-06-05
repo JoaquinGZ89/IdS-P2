@@ -54,19 +54,24 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GIT_TOKEN  }}
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN  }}
   
-  deploy:
-    name: Deploy
-    needs: [Sonarcloud]
+  Deploy:
+    needs: [build, Sonarcloud]
     runs-on: ubuntu-latest
-
+          
     steps:
-      - name: Install Render CLI
-        run: |
-          curl -L https://github.com/renderinc/render-cli/releases/download/v0.1.4/render-cli_0.1.4_Linux_x86_64.tar.gz | tar -xz -C /usr/local/bin
-          render -v
+    - name: Deploy to production
+      uses: johnbeynon/render-deploy-action@v0.0.8
+      with:
+        service-id: ${{ secrets.SERVICE_ID }}
+        api-key: ${{ secrets.RENDER_API_KEY }}
 
-      - name: Authenticate with Render
-        run: render login --api-key "${{ secrets.RENDER_API_KEY }}"
+    - name: Notify Slack on failure
+      if: failure()
+      run: |
+        curl -X POST -H 'Content-type: application/json' --data '{"text":"Error! No se pudo desplegar el codigo."}' ${{ secrets.SLACK_WEBHOOK_URL }}
 
-      - name: Deploy to Render
-        run: render deploy --service-id "${{ secrets.SERVICE_ID }}"
+    - name: Notify Slack on success
+      if: success()
+      run: |
+        curl -X POST -H 'Content-type: application/json' --data '{"text":"Codigo desplegado con exito."}' ${{ secrets.SLACK_WEBHOOK_URL }}
+  
