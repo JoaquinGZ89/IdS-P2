@@ -6,7 +6,6 @@ app = FastAPI()
 def read_root():
     return {"Hello": "World"}
 
-# Optional: import your code from code_1.py
 from code_1 import sum
 
 @app.get("/sum")
