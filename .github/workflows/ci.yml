@@ -37,7 +37,7 @@ jobs:
     - name: Notify Slack on success
       if: success()
       run: |
-        curl -X POST -H 'Content-type: application/json' --data '{"text":"SE ARREGLO TODO!!!."}' ${{ secrets.SLACK_WEBHOOK_URL }}
+        curl -X POST -H 'Content-type: application/json' --data '{"text":"Todo funciona correctamente."}' ${{ secrets.SLACK_WEBHOOK_URL }}
   
   Sonarcloud:
     needs: [build]
@@ -55,7 +55,7 @@ jobs:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN  }}
   
   Deploy:
-    needs: [build, Sonarcloud]
+    needs: [Sonarcloud]
     runs-on: ubuntu-latest
           
     steps:
