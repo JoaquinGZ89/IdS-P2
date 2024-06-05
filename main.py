@@ -1,4 +1,4 @@
-from fastapi import FastAPI # type: ignore
+from fastapi import FastAPI, Query # type: ignore
 
 app = FastAPI()
 
@@ -9,7 +9,7 @@ def read_root():
 from code_1 import sum
 
 @app.get("/sum")
-def get_sum(a: int, b: int):
+def get_sum(a: int = Query(...), b: int = Query(...)):
     return {"sum": sum(a, b)}
 
 
