@@ -12,4 +12,4 @@ from code_1 import sum
 def get_sum(a: int = Query(...), b: int = Query(...)):
     return {"sum": sum(a, b)}
 
-
+#Ejemplo de url: '.../sum?a=4&b=6'
