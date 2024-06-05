@@ -40,6 +40,7 @@ jobs:
         curl -X POST -H 'Content-type: application/json' --data '{"text":"SE ARREGLO TODO!!!."}' ${{ secrets.SLACK_WEBHOOK_URL }}
   
   Sonarcloud:
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -52,7 +53,20 @@ jobs:
         env:
             GITHUB_TOKEN: ${{ secrets.GIT_TOKEN  }}
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN  }}
+  
+  deploy:
+    name: Deploy
+    needs: [Sonarcloud]
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: Install Render CLI
+        run: |
+          curl -L https://github.com/renderinc/render-cli/releases/download/v0.1.4/render-cli_0.1.4_Linux_x86_64.tar.gz | tar -xz -C /usr/local/bin
+          render -v
 
+      - name: Authenticate with Render
+        run: render login --api-key "${{ secrets.RENDER_API_KEY }}"
 
-
+      - name: Deploy to Render
+        run: render deploy --service-id "${{ secrets.SERVICE_ID }}"
