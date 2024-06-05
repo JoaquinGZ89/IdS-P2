@@ -1,17 +1,16 @@
-from fastapi import FastAPI
+from fastapi import FastAPI # type: ignore
 
 app = FastAPI()
-
-# Definición de la función suma
-def sum(a, b):
-    return a + b
 
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
 
-# Parte opcional para ejecutar la función suma cuando se ejecute el script directamente
-if __name__ == "__main__":
-    suma = sum(4, 6)
-    print(f'El resultado es: {suma}')
+# Optional: import your code from code_1.py
+from code_1 import sum
+
+@app.get("/sum")
+def get_sum(a: int, b: int):
+    return {"sum": sum(a, b)}
+
 
