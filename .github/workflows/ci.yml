@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -40,7 +40,6 @@ jobs:
         curl -X POST -H 'Content-type: application/json' --data '{"text":"Todo funciona correctamente."}' ${{ secrets.SLACK_WEBHOOK_URL }}
   
   Sonarcloud:
-    needs: [build]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -55,7 +54,7 @@ jobs:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN  }}
   
   Deploy:
-    needs: [Sonarcloud]
+    needs: [test,Sonarcloud]
     runs-on: ubuntu-latest
           
     steps:
